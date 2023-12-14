@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h1>Hello, you are logged in.</h1>
+    <a href="{{ url_for('logout') }}">Press here to logout</a>
+
+    {% if nfl_schedule_data %}
+        {% if 'body' in nfl_schedule_data %}
+            <table border='1'>
+                <tr>
+                    <th>Game ID</th>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Game Status</th>
+                    <th>Start Time</th>
+                </tr>
+                {% for game in nfl_schedule_data['body'] %}
+                    <tr>
+                        <td>{{ game['gameID'] }}</td>
+                        <td>{{ game['home'] }}</td>
+                        <td>{{ game['away'] }}</td>
+                        <td>{{ game['gameStatus'] }}</td>
+                        <td>{{ game['gameTime'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Error fetching NFL schedule data. {{ nfl_schedule_data['error'] }}</p>
+        {% endif %}
+    {% else %}
+        <p>Error fetching NFL schedule data.</p>
+    {% endif %}
+
+</body>
+
+</html>
